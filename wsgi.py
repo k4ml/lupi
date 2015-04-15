@@ -17,12 +17,21 @@ from lupa import LuaRuntime
 
 from importd import d
 
+class Request(object):
+    def __init__(self, path, method):
+        self.path = path
+        self.method = method
+
+    def get_path(self):
+        return self.path
+
 @d("/")
 def index(request):
     lua = LuaRuntime(unpack_returned_tuples=True)
-    body = lua.eval('''[[
-        <h1>hello world</h1>
-    ]]''')
+    lua_script = open('test.lua').read()
+    lua_func = lua.eval('function(request) %s end' % lua_script)
+    i_request = Request(request.path, request.method)
+    body = lua_func(i_request)
     return d.HttpResponse(body)
 
 application = d
