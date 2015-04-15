@@ -17,6 +17,8 @@ from lupa import LuaRuntime
 
 from importd import d
 
+CWD = os.path.abspath(os.path.dirname(__file__))
+
 class Request(object):
     def __init__(self, path, method):
         self.path = path
@@ -28,7 +30,7 @@ class Request(object):
 @d("/")
 def index(request):
     lua = LuaRuntime(unpack_returned_tuples=True)
-    lua_script = open('test.lua').read()
+    lua_script = open(os.path.join(CWD, 'test.lua')).read()
     lua_func = lua.eval('function(request) %s end' % lua_script)
     i_request = Request(request.path, request.method)
     body = lua_func(i_request)
