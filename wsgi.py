@@ -39,12 +39,15 @@ class Request(object):
 @d("/")
 def index(request):
     i_request = Request(request)
-    lua_runtime = SplashLuaRuntime(sandboxed=True, lua_package_path=CWD, lua_sandbox_allowed_modules=[])
-    lua_runtime.add_allowed_object(i_request, ['path', 'method', 'query', 'form'])
-    import pdb;pdb.set_trace()
+    lua = LuaRuntime(unpack_returned_tuples=True)
+    sandbox = lua.eval("require('sandbox')")
     lua_script = open(os.path.join(CWD, 'test.lua')).read()
-    ret = lua_runtime.execute(lua_script)
-    return d.HttpResponse(body)
+    result = sandbox.run('function main(request) ' + lua_script + ' end')
+    if result is True:
+        body = sandbox.env["main"](i_request)
+        return d.HttpResponse(body)
+
+    return d.HttpResponse('Failed')
 
 @d("/scripts/new/")
 def new_script(request):

@@ -16,11 +16,11 @@ request = Request()
 CWD = os.path.abspath(os.path.dirname(__file__))
 lua = LuaRuntime(unpack_returned_tuples=True)
 sandbox = lua.eval("require('sandbox')")
-sandbox["allowed_require_names"] = python2lua(
-    lua,
-    {name: True for name in [request]}
-)
+#sandbox["allowed_require_names"] = python2lua(
+#    lua,
+#    {name: True for name in [request]}
+#)
 lua_script = open(os.path.join(CWD, 'test.lua')).read()
 result = sandbox.run('function main(request) ' + lua_script + ' end')
 print result
-import pdb;pdb.set_trace()
+print sandbox.env["main"](request)
