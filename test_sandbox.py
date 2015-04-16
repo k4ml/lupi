@@ -24,3 +24,4 @@ lua_script = open(os.path.join(CWD, 'test.lua')).read()
 result = sandbox.run('function main(request) ' + lua_script + ' end')
 print result
 print sandbox.env["main"](request)
+print sandbox.env["dump"](request)
