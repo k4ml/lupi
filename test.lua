@@ -24,8 +24,6 @@ else
     data = request.query
 end
 
---print(request.__class__)
-
 -- return debug.getinfo(inspect)
 
 --return inspect(data)
