@@ -14,8 +14,6 @@ except IOError:
 
 import lupa
 from lupa import LuaRuntime
-from splash.lua import run_in_sandbox
-from splash.lua_runtime import SplashLuaRuntime
 
 from importd import d
 
