@@ -20,6 +20,7 @@ from importd import d
 CWD = os.path.abspath(os.path.dirname(__file__))
 d(
     INSTALLED_APPS=[
+        'django.contrib.auth',
         'lupi',
     ]
 )
