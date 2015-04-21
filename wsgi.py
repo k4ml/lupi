@@ -16,13 +16,31 @@ import lupa
 from lupa import LuaRuntime
 
 from importd import d
+INSTALLED_APPS = (
+)
+
 
 CWD = os.path.abspath(os.path.dirname(__file__))
 d(
     INSTALLED_APPS=[
+        'django.contrib.admin',
         'django.contrib.auth',
+        'django.contrib.contenttypes',
+        'django.contrib.sessions',
+        'django.contrib.messages',
+        'django.contrib.staticfiles',
         'lupi',
-    ]
+    ],
+    MIDDLEWARE_CLASSES=[
+        'django.contrib.sessions.middleware.SessionMiddleware',
+        'django.middleware.common.CommonMiddleware',
+        'django.middleware.csrf.CsrfViewMiddleware',
+        'django.contrib.auth.middleware.AuthenticationMiddleware',
+        'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
+        'django.contrib.messages.middleware.MessageMiddleware',
+        'django.middleware.clickjacking.XFrameOptionsMiddleware',
+        'django.middleware.security.SecurityMiddleware',
+    ],
 )
 
 class Request(object):
