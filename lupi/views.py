@@ -21,7 +21,7 @@ class Request(object):
 def index(request):
     i_request = Request(request)
     lua = LuaRuntime(unpack_returned_tuples=True)
-    sandbox = lua.eval("require('sandbox')")
+    sandbox = lua.eval("""package.path = "../?.lua;" .. package.path; require('sandbox')""")
     lua_script = open(os.path.join(CWD, 'test.lua')).read()
     result = sandbox.run('function main(request) ' + lua_script + ' end')
     if result is True:
