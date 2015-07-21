@@ -1,5 +1,7 @@
 import os
 
+from django.http import HttpResponse
+
 import lupa
 from lupa import LuaRuntime
 from splash.lua import run_in_sandbox
@@ -21,14 +23,15 @@ class Request(object):
 def index(request):
     i_request = Request(request)
     lua = LuaRuntime(unpack_returned_tuples=True)
-    sandbox = lua.eval("""package.path = "../?.lua;" .. package.path; require('sandbox')""")
-    lua_script = open(os.path.join(CWD, 'test.lua')).read()
+    lua.execute('package.path = "../?.lua;" .. package.path')
+    sandbox = lua.eval("require('sandbox')")
+    lua_script = open(os.path.join(CWD, '..', 'test.lua')).read()
     result = sandbox.run('function main(request) ' + lua_script + ' end')
     if result is True:
         body = sandbox.env["main"](i_request)
-        return d.HttpResponse(body)
+        return HttpResponse(body)
 
-    return d.HttpResponse('Failed')
+    return HttpResponse('Failed')
 
 def new_script(request):
     if request.method == 'POST':
