@@ -221,7 +221,7 @@ function sandbox.run(untrusted_code)
   sandbox.fix_metatables()
   sandbox.enable_instruction_limit()
   sandbox.enable_memory_limit()
-  local untrusted_function, message = load(untrusted_code, nil, 't', sandbox.env)
+  local untrusted_function, message = loadstring(untrusted_code, nil, 't', sandbox.env)
   if not untrusted_function then return nil, message end
   return pcall(untrusted_function)
 end
